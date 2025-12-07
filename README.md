@@ -8,7 +8,7 @@ Design-focused, fast, and easy to use — perfect for Instagram, LinkedIn, YouTu
 
 ## 🎥 Preview
 
-https://github.com/yourusername/ai-bio-generator/blob/main/preview.mp4
+https://github.com/yourusername/ai-bio-generator/main/preview.mp4
 
 
 ---
