@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accurex Studio | AI Bio Generator</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    animation: {
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'fade-up': 'fadeUp 0.6s ease-out forwards',
+                    },
+                    keyframes: {
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- CORE STYLES --- */
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .dark .glass {
+            background: rgba(9, 9, 11, 0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background-color: #d1d5db; 
+            border-radius: 20px; 
+            border: 3px solid transparent;
+            background-clip: content-box;
+        }
+        .dark ::-webkit-scrollbar-thumb { background-color: #3f3f46; }
+
+        /* Lenis CSS (Required for smooth scroll) */
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        /* Selection Card Active State */
+        .select-card.active {
+            border-color: #6366f1; /* Indigo */
+            background-color: #eef2ff;
+        }
+        .dark .select-card.active {
+            border-color: #818cf8;
+            background-color: #1e1b4b;
+        }
+        
+        /* Vibe/Audience Button Active State */
+        .choice-btn.active {
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+        }
+        .dark .choice-btn.active {
+            background-color: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-zinc-950 dark:text-gray-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <nav class="fixed top-0 w-full z-50 glass transition-colors duration-300">
+        <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center text-white dark:text-black font-bold text-sm shadow-lg">A</div>
+                <span class="font-bold tracking-tight text-lg">Accurex</span>
+            </div>
+            
+            <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-zinc-800 transition-colors">
+                <i id="themeIcon" class="ph ph-moon text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-28 pb-20 px-4 w-full max-w-2xl mx-auto relative">
+
+        <div id="step-1" class="space-y-6 animate-fade-up">
+            <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 text-xs font-medium text-gray-600 dark:text-gray-400 mb-6">
+
+                <span class="relative flex h-2 w-2">
+
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+
+                </span>
+
+                AI Powered V1.0
+
+            </div>
+                <h1 class="text-4xl font-bold tracking-tight mb-2">Generate your Bio</h1>
+                <p class="text-gray-500 dark:text-gray-400">Describe yourself, choose a platform, and let the system do the rest.</p>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-900 p-1 rounded-3xl shadow-xl shadow-gray-200/50 dark:shadow-black/50 border border-gray-100 dark:border-zinc-800">
+                <div class="p-5">
+                    <label class="block text-sm font-semibold mb-2 ml-1 text-gray-700 dark:text-gray-300">Description</label>
+                    <textarea id="userInput" rows="3" class="w-full bg-gray-50 dark:bg-black rounded-xl border-0 p-4 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 resize-none transition-all placeholder:text-gray-400" placeholder="e.g. I'm a UI designer who loves minimalism and coffee..."></textarea>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-black/40 rounded-b-[1.4rem] p-5 border-t border-gray-100 dark:border-zinc-800">
+                    <label class="block text-sm font-semibold mb-3 ml-1 text-gray-700 dark:text-gray-300">Choose Platform</label>
+                    <div class="grid grid-cols-4 gap-3">
+                        <div onclick="setPlatform(this, 'instagram')" class="select-card active cursor-pointer bg-white dark:bg-zinc-900 border border-transparent rounded-xl p-3 flex flex-col items-center gap-2 transition-all hover:shadow-md">
+                            <i class="ph ph-instagram-logo text-2xl text-pink-500"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-wide">Insta</span>
+                        </div>
+                        <div onclick="setPlatform(this, 'youtube')" class="select-card cursor-pointer bg-white dark:bg-zinc-900 border border-transparent rounded-xl p-3 flex flex-col items-center gap-2 transition-all hover:shadow-md">
+                            <i class="ph ph-youtube-logo text-2xl text-red-500"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-wide">YouTube</span>
+                        </div>
+                        <div onclick="setPlatform(this, 'linkedin')" class="select-card cursor-pointer bg-white dark:bg-zinc-900 border border-transparent rounded-xl p-3 flex flex-col items-center gap-2 transition-all hover:shadow-md">
+                            <i class="ph ph-linkedin-logo text-2xl text-blue-600"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-wide">LinkedIn</span>
+                        </div>
+                        <div onclick="setPlatform(this, 'portfolio')" class="select-card cursor-pointer bg-white dark:bg-zinc-900 border border-transparent rounded-xl p-3 flex flex-col items-center gap-2 transition-all hover:shadow-md">
+                            <i class="ph ph-briefcase text-2xl text-green-500"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-wide">Web</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="validateAndNext()" class="w-full py-4 bg-black dark:bg-white text-white dark:text-black font-bold rounded-2xl shadow-lg hover:opacity-90 transition-transform active:scale-[0.98] flex items-center justify-center gap-2">
+                Analyze & Continue <i class="ph ph-arrow-right font-bold"></i>
+            </button>
+        </div>
+
+        <div id="step-2" class="hidden space-y-8 animate-fade-up">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-2">Refining Context</h2>
+                <p class="text-gray-500">Help the AI understand your goal.</p>
+            </div>
+
+            <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl shadow-xl border border-gray-100 dark:border-zinc-800 space-y-8">
+                
+                <div>
+                    <h3 class="text-sm font-bold uppercase text-gray-400 mb-3 tracking-wider">1. What's the Vibe?</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="setVibe(this, 'professional')" class="choice-btn active px-4 py-2 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium transition-all">Professional 💼</button>
+                        <button onclick="setVibe(this, 'friendly')" class="choice-btn px-4 py-2 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium transition-all">Friendly 👋</button>
+                        <button onclick="setVibe(this, 'bold')" class="choice-btn px-4 py-2 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium transition-all">Bold ⚡</button>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold uppercase text-gray-400 mb-3 tracking-wider">2. Who is this for?</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="setTarget(this, 'clients')" class="choice-btn active px-4 py-2 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium transition-all">Clients</button>
+                        <button onclick="setTarget(this, 'fans')" class="choice-btn px-4 py-2 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium transition-all">Fans/Community</button>
+                        <button onclick="setTarget(this, 'recruiters')" class="choice-btn px-4 py-2 rounded-full border border-gray-200 dark:border-zinc-700 text-sm font-medium transition-all">Recruiters</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="goToStep(1)" class="w-1/3 py-4 font-semibold text-gray-500 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-2xl transition">Back</button>
+                <button onclick="generateResults()" id="genBtn" class="w-2/3 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg transition-transform active:scale-[0.98] flex items-center justify-center gap-2">
+                    <i class="ph ph-magic-wand font-bold"></i> Generate
+                </button>
+            </div>
+        </div>
+
+        <div id="step-3" class="hidden space-y-6 animate-fade-up">
+            <div class="flex items-center justify-between px-2">
+                <h2 class="text-2xl font-bold">Your Bios</h2>
+                <button onclick="resetApp()" class="text-sm font-medium text-gray-500 underline hover:text-black dark:hover:text-white">Start Over</button>
+            </div>
+
+            <div id="results-container" class="space-y-4">
+                </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-6 text-xs text-gray-400">
+        &copy; 2025 Accurex Studio Tool
+    </footer>
+
+    <script>
+        // --- 1. SETUP & INIT ---
+        const state = {
+            desc: "",
+            platform: "instagram",
+            vibe: "professional",
+            target: "clients"
+        };
+
+        // Initialize Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Initialize Theme
+        const themeIcon = document.getElementById('themeIcon');
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeIcon.classList.replace('ph-moon', 'ph-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeIcon.classList.replace('ph-sun', 'ph-moon');
+        }
+
+        // --- 2. INTERACTION FUNCTIONS ---
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            themeIcon.className = isDark ? 'ph ph-sun text-xl' : 'ph ph-moon text-xl';
+        }
+
+        function setPlatform(el, platform) {
+            document.querySelectorAll('.select-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            state.platform = platform;
+        }
+
+        function setVibe(el, vibe) {
+            // Get parent, find buttons
+            const buttons = el.parentElement.querySelectorAll('button');
+            buttons.forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            state.vibe = vibe;
+        }
+
+        function setTarget(el, target) {
+            const buttons = el.parentElement.querySelectorAll('button');
+            buttons.forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            state.target = target;
+        }
+
+        function validateAndNext() {
+            const input = document.getElementById('userInput');
+            const val = input.value.trim();
+
+            if (!val) {
+                // Shake animation for error
+                input.parentElement.parentElement.classList.add('animate-shake');
+                input.focus();
+                setTimeout(() => {
+                    input.parentElement.parentElement.classList.remove('animate-shake');
+                }, 500);
+                return;
+            }
+
+            state.desc = val;
+            goToStep(2);
+        }
+
+        function goToStep(stepNumber) {
+            // Hide all
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.add('hidden');
+
+            // Show target
+            const target = document.getElementById(`step-${stepNumber}`);
+            target.classList.remove('hidden');
+            
+            // Re-trigger animation
+            target.classList.remove('animate-fade-up');
+            void target.offsetWidth; // trigger reflow
+            target.classList.add('animate-fade-up');
+        }
+
+        // --- 3. GENERATION LOGIC (MOCK AI) ---
+
+        function generateResults() {
+            const btn = document.getElementById('genBtn');
+            const originalText = btn.innerHTML;
+            
+            // Loading State
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin"></i> Writing...`;
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const results = createBios();
+                renderResults(results);
+                goToStep(3);
+                
+                // Reset Button
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        function createBios() {
+            // Smart extraction
+            const words = state.desc.split(' ');
+            const coreTopic = words.length > 2 ? words.slice(0, 3).join(' ') : state.desc;
+            
+            let templates = [];
+
+            // Logic Tree based on Vibe
+            if (state.vibe === 'professional') {
+                templates = [
+                    `Helping ${state.target} succeed with ${coreTopic}. Professional, reliable, and results-driven.`,
+                    `Expert in ${coreTopic}. Dedicated to delivering excellence for ${state.target}. Let's work together.`,
+                    `${coreTopic} Specialist. Transforming ideas into reality for forward-thinking ${state.target}.`
+                ];
+            } else if (state.vibe === 'friendly') {
+                templates = [
+                    `Hey! I love ${coreTopic} and helping ${state.target}. Let's create something awesome together! 👋`,
+                    `Sharing my journey in ${coreTopic}. Here to help ${state.target} grow and learn. ✨`,
+                    `Just a creative soul obsessed with ${coreTopic}. Making life easier for ${state.target}.`
+                ];
+            } else { // Bold
+                templates = [
+                    `Unapologetically good at ${coreTopic}. We help ${state.target} dominate the market. 🚀`,
+                    `Stop settling. Get the best ${coreTopic} for ${state.target}. Level up today.`,
+                    `${coreTopic} Revolution. changing the game for ${state.target}. Join the movement. ⚡`
+                ];
+            }
+
+            return templates;
+        }
+
+        function renderResults(bios) {
+            const container = document.getElementById('results-container');
+            container.innerHTML = '';
+
+            bios.forEach((bio, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 p-6 rounded-2xl relative group hover:shadow-lg transition-all";
+                card.innerHTML = `
+                    <p class="text-gray-800 dark:text-gray-200 leading-relaxed pr-8 font-medium">${bio}</p>
+                    <button onclick="copyToClipboard(this)" class="absolute top-4 right-4 text-gray-400 hover:text-black dark:hover:text-white transition-colors bg-gray-50 dark:bg-zinc-800 p-2 rounded-lg">
+                        <i class="ph ph-copy text-lg"></i>
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(btn) {
+            const text = btn.parentElement.querySelector('p').innerText;
+            navigator.clipboard.writeText(text);
+            
+            const icon = btn.querySelector('i');
+            icon.classList.remove('ph-copy');
+            icon.classList.add('ph-check', 'text-green-500');
+            
+            setTimeout(() => {
+                icon.classList.remove('ph-check', 'text-green-500');
+                icon.classList.add('ph-copy');
+            }, 2000);
+        }
+
+        function resetApp() {
+            document.getElementById('userInput').value = "";
+            goToStep(1);
+        }
+    </script>
+</body>
+</html>
